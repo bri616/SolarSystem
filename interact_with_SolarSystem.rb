@@ -29,7 +29,8 @@ cascade = {
   diameter: 50,
   mass: 800,
   moons: [citra, centenniel],
-  rotation_rate: 10
+  rotation_rate: 10,
+  distance_from_the_sun: 10_000
 }
 
 simcoe = {
@@ -37,7 +38,8 @@ simcoe = {
   diameter: 80,
   mass: 1200,
   moons: [goldings],
-  rotation_rate: 30
+  rotation_rate: 30,
+  distance_from_the_sun: 20_000
 }
 
 hops_planets = [cascade, simcoe]

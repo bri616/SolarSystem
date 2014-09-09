@@ -16,9 +16,12 @@ class SolarSystem
     planet.calc_local_year(@formation_year, current_year)
   end
 
+  def distance_between(planet1, planet2)
+    (planet1.distance_from_the_sun - planet2.distance_from_the_sun).abs
+  end
 
   class Planet
-    attr_accessor :name, :diameter, :mass, :moons, :rotation_rate, :local_year
+    attr_accessor :name, :diameter, :mass, :moons, :rotation_rate, :local_year, :distance_from_the_sun
 
     def initialize(planet_hash)
       @name = planet_hash[:name]
@@ -28,6 +31,7 @@ class SolarSystem
       planet_hash[:moons].each {|moon_hash| add_moon(moon_hash)}
       @rotation_rate = planet_hash[:rotation_rate]
       @local_year = local_year
+      @distance_from_the_sun = planet_hash[:distance_from_the_sun]
     end
 
     def calc_local_year(solar_system_formation_year, current_year=2014)
