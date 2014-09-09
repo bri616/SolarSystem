@@ -1,15 +1,21 @@
 class SolarSystem
-  attr_accessor :planets, :formation_date
+  attr_accessor :planets, :formation_year
 
-  def initialize(planets, formation_date=1900)
-    @formation_date = formation_date
+  def initialize(planets_array, formation_year=1900)
+    @formation_year = formation_year
     @planets = []
-    planets.each {|planet_hash| add_planet(planet_hash)}
+    planets_array.each {|planet_hash| add_planet(planet_hash)}
+    planets.each {|planet| calc_planet_local_year(planet)}
   end
 
   def add_planet(planet_hash)
     @planets << Planet.new(planet_hash)
   end
+
+  def calc_planet_local_year(planet, current_year=2014)
+    planet.calc_local_year(@formation_year, current_year)
+  end
+
 
   class Planet
     attr_accessor :name, :diameter, :mass, :moons, :rotation_rate, :local_year
@@ -21,11 +27,11 @@ class SolarSystem
       @moons = []
       planet_hash[:moons].each {|moon_hash| add_moon(moon_hash)}
       @rotation_rate = planet_hash[:rotation_rate]
-      @local_year = calc_local_year
+      @local_year = local_year
     end
 
-    def calc_local_year
-      0
+    def calc_local_year(solar_system_formation_year, current_year=2014)
+      @local_year = ((((current_year-solar_system_formation_year)*365)).to_f/@rotation_rate).to_i
     end
 
     def add_moon(moon_hash)
@@ -44,24 +50,9 @@ class SolarSystem
   end
 end
 
-#planets
-cascade = {
-  name: "Cascade",
-  diameter: 50,
-  mass: 800,
-  moons: [citra, centenniel],
-  rotation_rate: 10
-}
+## Arrays of planets and moons here
 
-simcoe = {
-  name: "Simcoe",
-  diameter: 80,
-  mass: 1200,
-  moons: [goldings],
-  rotation_rate: 30
-}
-
-#moons
+# moons
 citra = {
   name: "Citra",
   diameter: 5,
@@ -78,4 +69,21 @@ goldings = {
   name: "Goldings",
   diameter: 12,
   mass: 100
+}
+
+# planets
+cascade = {
+  name: "Cascade",
+  diameter: 50,
+  mass: 800,
+  moons: [citra, centenniel],
+  rotation_rate: 10
+}
+
+simcoe = {
+  name: "Simcoe",
+  diameter: 80,
+  mass: 1200,
+  moons: [goldings],
+  rotation_rate: 30
 }
